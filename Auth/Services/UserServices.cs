@@ -1,9 +1,11 @@
-﻿using Notus.Enums;
+﻿using AutoMapper;
+using Notus.Enums;
+using Notus.Models.Role;
 using Notus.Models.User;
 using Notus.Models.User.Dto;
 using Notus.Repositories;
 using Notus.Utils;
-using AutoMapper;
+using System.Data;
 using System.Net;
 
 namespace Notus.Services
@@ -64,5 +66,95 @@ namespace Notus.Services
 
             return _mapper.Map<UserWithoutPassDTO>(userMapped);
         }
+
+        async public Task<UserWithoutPassDTO> AddRoleByEmail(string? email, string? roleName)
+        {
+            // validaciones
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(roleName))
+            {
+                throw new HttpResponseError(HttpStatusCode.BadRequest, "Email and role are required.");
+            }
+
+            // busca usuario
+            var user = await _repo.GetOneAsync(x => x.Email == email);
+            if (user == null)
+            {
+                throw new HttpResponseError(HttpStatusCode.NotFound, $"User with email: {email} not found.");
+            }
+
+            // busca rol
+            var role = await _roleServices.GetOneByName(roleName);
+            if (role == null)
+            {
+                throw new HttpResponseError(HttpStatusCode.NotFound, $"Role '{roleName}' not found.");
+            }
+
+            // si no existe la lista, la crea (no deberia pasar)
+            if (user.Roles == null)
+            {
+                user.Roles = new List<Role>();
+            }
+
+            // evitar roles duplicados
+            if (user.Roles.Any(r => r.Name == role.Name))
+            {
+                return _mapper.Map<UserWithoutPassDTO>(user);
+            }
+
+            // añade el rol y lo guarda (persistencia)
+            user.Roles.Add(role);
+            await _repo.UpdateOneAsync(user);
+
+            return _mapper.Map<UserWithoutPassDTO>(user);
+        }
+
+        async public Task<UserWithoutPassDTO> RemoveRoleByEmail(string? email, string? roleName)
+        {
+            // validaciones
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(roleName))
+            {
+                throw new HttpResponseError(HttpStatusCode.BadRequest, "Email and role are required.");
+            }
+
+            // busca usuario
+            var user = await _repo.GetOneAsync(x => x.Email == email);
+            if (user == null)
+            {
+                throw new HttpResponseError(HttpStatusCode.NotFound, $"User with email: {email} not found.");
+            }
+
+            // busca rol
+            var role = await _roleServices.GetOneByName(roleName);
+            if (role == null)
+            {
+                throw new HttpResponseError(HttpStatusCode.NotFound, $"Role '{roleName}' not found.");
+            }
+
+            // si no existe la lista, no hay nada que eliminar (no deberia pasar)
+            if (user.Roles == null || !user.Roles.Any())
+            {
+                return _mapper.Map<UserWithoutPassDTO>(user);
+            }
+
+            // buscar coincidencia (por Id si está, por nombre como fallback) - comparación insensible a mayúsculas
+            var roleInUser = user.Roles.FirstOrDefault(r =>
+                (r.Id != 0 && r.Id == role.Id) ||
+                string.Equals(r.Name, role.Name)
+                //compara los nombres de los roles
+            );
+
+            // si el usuario no tiene ese rol lo devuelve como está
+            if (roleInUser == null)
+            {
+                return _mapper.Map<UserWithoutPassDTO>(user);
+            }
+
+            // elimina el rol y guarda (persistencia)
+            user.Roles.Remove(roleInUser);
+            await _repo.UpdateOneAsync(user);
+
+            return _mapper.Map<UserWithoutPassDTO>(user);
+        }
+
     }
 }

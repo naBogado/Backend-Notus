@@ -1,48 +1,21 @@
-﻿using AutoMapper;
-using Notus.Models.Class;
-using Notus.Models.Class.Dto;
-using Notus.Models.User;
-using Notus.Models.User.Dto;
+﻿using Notus.Models.Class;
 using Notus.Repositories;
-using System.Net;
 
 namespace Notus.Services
 {
     public class ClassServices
     {
-        private readonly IMapper _mapper;
+        private readonly IClassRepository _repository;
 
-        public ClassServices(IMapper mapper)
+        public ClassServices(IClassRepository repository)
         {
-            _mapper = mapper;
+            _repository = repository;
         }
 
-        async public Task<ClassWithNames> CreateOne(Class createClass)
-        {
-            //var studentsId = await _roleServices.GetUsers(algo);
-            //createClass.StudentId = new() { studentsId };
-
-            //await _repo.CreateOneAsync(user);
-
-            return _mapper.Map<ClassWithNames>(createClass);
-        }
-
-        //async public Task<Class> UpdateOneById()
-        //{
-
-        //}
-        //async public Task<Class> DeleteOneById()
-        //{
-
-        //}
-
-        //async public Task<Class> GetOneById()
-        //{
-
-        //}
-        //async public Task<List<Class>> GetAllByProfessor()
-        //{
-
-        //}
+        public async Task<List<Class>> GetAllAsync() => await _repository.GetAllAsync();
+        public async Task<Class?> GetByIdAsync(int id) => await _repository.GetByIdAsync(id);
+        public async Task<Class> AddAsync(Class cls) => await _repository.AddAsync(cls);
+        public async Task<Class> UpdateAsync(Class cls) => await _repository.UpdateAsync(cls);
+        public async Task DeleteAsync(int id) => await _repository.DeleteAsync(id);
     }
 }

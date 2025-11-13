@@ -31,7 +31,7 @@ namespace Notus.Repositories
         }
         async public Task UpdateOneAsync(T entity)
         {
-            await dbSet.AddAsync(entity);
+            dbSet.Update(entity);
             await SaveAsync();
         }
 

@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\mamol\\Downloads\\max (1)\\max\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\mamol\\Downloads\\max (1)\\max\\notus-backend\\obj\\Debug\\net8.0\\notus-backend.AssemblyInfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:notus-backend\\obj\\Debug\\net8.0\\notus-backend.AssemblyInfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3D82E409-78EF-4BE4-A473-A4D74D85B7C9}|notus-backend\\notus-backend.csproj|c:\\users\\mamol\\downloads\\max (1)\\max\\notus-backend\\models\\user\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3D82E409-78EF-4BE4-A473-A4D74D85B7C9}|notus-backend\\notus-backend.csproj|solutionrelative:notus-backend\\models\\user\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "notus-backend.AssemblyInfo.cs",
+              "DocumentMoniker": "C:\\Users\\mamol\\Downloads\\max (1)\\max\\notus-backend\\obj\\Debug\\net8.0\\notus-backend.AssemblyInfo.cs",
+              "RelativeDocumentMoniker": "notus-backend\\obj\\Debug\\net8.0\\notus-backend.AssemblyInfo.cs",
+              "ToolTip": "C:\\Users\\mamol\\Downloads\\max (1)\\max\\notus-backend\\obj\\Debug\\net8.0\\notus-backend.AssemblyInfo.cs",
+              "RelativeToolTip": "notus-backend\\obj\\Debug\\net8.0\\notus-backend.AssemblyInfo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T14:05:32.268Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\mamol\\Downloads\\max (1)\\max\\notus-backend\\Models\\User\\User.cs",
+              "RelativeDocumentMoniker": "notus-backend\\Models\\User\\User.cs",
+              "ToolTip": "C:\\Users\\mamol\\Downloads\\max (1)\\max\\notus-backend\\Models\\User\\User.cs",
+              "RelativeToolTip": "notus-backend\\Models\\User\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-10T23:15:01.651Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

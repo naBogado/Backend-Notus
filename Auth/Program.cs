@@ -1,4 +1,4 @@
-using Notus.Config;
+﻿using Notus.Config;
 using Notus.Repositories;
 using Notus.Services;
 using Notus.Utils;
@@ -8,22 +8,25 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// 🔹 Controladores + camelCase para JSON
+builder.Services.AddControllers().AddJsonOptions(opts =>
+{
+    opts.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+});
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options => {
+builder.Services.AddSwaggerGen(options =>
+{
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "Auth API",
-        Description = "An ASP.NET Core Web Api for managing Auth"
+        Title = "Notus API",
+        Description = "API para gestión de usuarios y clases"
     });
-
     options.AddSecurityDefinition("Token", new OpenApiSecurityScheme()
     {
         BearerFormat = "JWT",
@@ -33,19 +36,21 @@ builder.Services.AddSwaggerGen(options => {
         Name = "Authorization",
         Scheme = "bearer"
     });
-
     options.OperationFilter<AuthOperationFilter>();
 });
 
-// Services
+// 🔹 Services
 builder.Services.AddScoped<UserServices>();
 builder.Services.AddScoped<AuthServices>();
 builder.Services.AddScoped<IEncoderServices, EncoderServices>();
 builder.Services.AddScoped<RoleServices>();
+builder.Services.AddScoped<ClassServices>();
+builder.Services.AddScoped<EventServices>();
 
-// Repositories
+// 🔹 Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IClassRepository, ClassRepository>();
 
 builder.Services.AddAutoMapper(opts => { }, typeof(Mapping));
 
@@ -54,40 +59,39 @@ builder.Services.AddDbContext<ApplicationDbContext>(opts =>
     opts.UseSqlServer(builder.Configuration.GetConnectionString("authConnection"));
 });
 
-
-// JWT
+// 🔹 JWT
 var secret = builder.Configuration.GetSection("Secrets:JWT")?.Value?.ToString() ?? string.Empty;
 var key = Encoding.UTF8.GetBytes(secret);
 
-builder.Services.AddAuthentication(opts => 
+builder.Services.AddAuthentication(opts =>
 {
     opts.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     opts.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 })
-    .AddCookie(opts =>
+.AddCookie(opts =>
+{
+    opts.Cookie.HttpOnly = true;
+    opts.Cookie.SameSite = SameSiteMode.None;
+    opts.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    opts.ExpireTimeSpan = TimeSpan.FromDays(1);
+})
+.AddJwtBearer(opts =>
+{
+    opts.SaveToken = true;
+    opts.TokenValidationParameters = new TokenValidationParameters
     {
-        opts.Cookie.HttpOnly = true;
-        opts.Cookie.SameSite = SameSiteMode.None;
-        opts.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-        opts.ExpireTimeSpan = TimeSpan.FromDays(1);
-
-    })
-    .AddJwtBearer(opts =>
-    {
-        opts.SaveToken = true;
-        opts.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = false,
-            ValidateAudience = false,
-            ValidateLifetime = true,
-        };
-    });
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+    };
+});
 
 var app = builder.Build();
 
+// 🔹 CORS (para conectar con React)
 app.UseCors(opts =>
 {
     opts.AllowAnyMethod();
@@ -95,7 +99,7 @@ app.UseCors(opts =>
     opts.AllowAnyOrigin();
 });
 
-// Configure the HTTP request pipeline.
+// 🔹 Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -103,11 +107,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

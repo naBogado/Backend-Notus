@@ -23,5 +23,7 @@ namespace Notus.Models.User.Dto
         [Required]
         [MinLength(8)]
         public string ConfirmPassword { get; set; } = null!;
+
+        public string Role { get; set; } = null!;
     }
 }

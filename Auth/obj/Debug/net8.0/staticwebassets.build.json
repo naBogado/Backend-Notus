@@ -1,1 +1,11 @@
-{"Version":1,"Hash":"UnYpr8QFPmydqrOzWV/CPC16P835rIxXaiGpL84stiA=","Source":"Notus","BasePath":"_content/Notus","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}
+{
+  "Version": 1,
+  "Hash": "V4pvPWmjW31ZGAbPvxhr/nfsxjB5TPM2qREMKxRHyC4=",
+  "Source": "Notus",
+  "BasePath": "_content/Notus",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

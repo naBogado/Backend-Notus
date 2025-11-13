@@ -24,5 +24,14 @@ namespace Notus.Repositories
             }
             return await query.FirstOrDefaultAsync();
         }
+
+        new async public Task<IEnumerable<User>> GetAllAsync(Expression<Func<User, bool>>? filter = null)
+        {
+            IQueryable<User> query = dbSet.Include(x => x.Roles);
+            if (filter != null) {
+                query = query.Where(filter);
+            }
+            return await query.ToListAsync();
+        }
     }
 }

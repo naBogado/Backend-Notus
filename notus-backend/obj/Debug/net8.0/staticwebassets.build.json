@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "2fbhPVjDyCkCwZ0kln9V09573A5zFGIyohL1VwR8BDA=",
+  "Source": "notus-backend",
+  "BasePath": "_content/notus-backend",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
