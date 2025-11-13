@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Notus")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+31faa1a1db649ee3c75604ceaf122e169de97b56")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f135d462f30a1da417fc792ca4707464f3c29414")]
 [assembly: System.Reflection.AssemblyProductAttribute("Notus")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Notus")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
